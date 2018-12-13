@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_item"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+   >
+
+
+    <ImageView
+        android:id="@+id/AccountTypeImage"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/image_of_the_carrier"
+        android:minHeight="60dp"
+        android:minWidth="50dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+
+        android:layout_marginTop="16dp"
+
+        android:src="@drawable/logo_small_dialog"
+        tools:src="@drawable/logo_small_dialog" />
+
+    <TextView
+        android:id="@+id/AccountTypeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="4dp"
+        android:paddingTop="25dp"
+        tools:text="Facebook" />
+
+
+</LinearLayout>

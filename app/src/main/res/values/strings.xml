@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Ez Top-Up</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="image_of_the_carrier">image of the carrier</string>
+    <string name="scaning">Scaning</string>
+</resources>
