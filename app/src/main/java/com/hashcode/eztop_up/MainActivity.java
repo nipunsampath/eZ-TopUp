@@ -31,7 +31,6 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -51,7 +50,7 @@ import static com.hashcode.eztop_up.Utility.CarrierDialog.currentCarrier;
 public class MainActivity extends AppCompatActivity
 {
     private static final String TAG = "AndroidCameraApi";
-    private Button captureButton;
+
     private TextureView textureView;
 
     private ImageView flash;
@@ -92,16 +91,7 @@ public class MainActivity extends AppCompatActivity
         textureView = findViewById(R.id.textureView);
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
-//        captureButton = findViewById(R.id.capture_button);
-//////        assert captureButton != null;
-//////        captureButton.setOnClickListener(new View.OnClickListener()
-//////        {
-//////            @Override
-//////            public void onClick(View v)
-//////            {
-//////                takePicture();
-//////            }
-//////        });
+
 
         flash = findViewById(R.id.flashIcon);
         assert flash != null;
@@ -133,7 +123,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                CarrierDialog dialogBox = new CarrierDialog();
+                CarrierDialog dialogBox = new CarrierDialog(MainActivity.this);
                 dialogBox.Buld(MainActivity.this);
             }
         });
@@ -222,8 +212,12 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onError(@NonNull CameraDevice camera, int error)
         {
-            cameraDevice.close();
-            cameraDevice = null;
+            if(cameraDevice != null)
+            {
+                cameraDevice.close();
+                cameraDevice = null;
+            }
+
         }
     };
 
@@ -396,6 +390,8 @@ public class MainActivity extends AppCompatActivity
             texture.setDefaultBufferSize(imageDimension.getWidth(), imageDimension.getHeight());
             Surface surface = new Surface(texture);
             captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            captureRequestBuilder.set(CaptureRequest.NOISE_REDUCTION_MODE,CaptureRequest.NOISE_REDUCTION_MODE_HIGH_QUALITY);
+            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
             captureRequestBuilder.addTarget(surface);
             cameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback()
             {
@@ -465,7 +461,9 @@ public class MainActivity extends AppCompatActivity
         {
             Log.e(TAG, "updatePreview error, return");
         }
-        captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+//        captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+        captureRequestBuilder.set(CaptureRequest.NOISE_REDUCTION_MODE,CaptureRequest.NOISE_REDUCTION_MODE_HIGH_QUALITY);
+        captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_EDOF);
         try
         {
             cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(), null, mBackgroundHandler);
@@ -537,13 +535,12 @@ public class MainActivity extends AppCompatActivity
             public void run()
             {
                 scanningIcon.setVisibility(View.VISIBLE);
-                Animation animZoomIn = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_in);
-//                Animation animZoomOut = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_out);
+                Animation animZoomInOut = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_in_out);
 
-                scanningIcon.startAnimation(animZoomIn);
+                scanningIcon.startAnimation(animZoomInOut);
                 takePicture();
                 scanningIcon.setVisibility(View.INVISIBLE);
-//                scanningIcon.startAnimation(animZoomOut);
+
                 handler.postDelayed(this,7000);
             }
         });
