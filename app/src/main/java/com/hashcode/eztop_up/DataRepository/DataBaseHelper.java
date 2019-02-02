@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 
 import com.hashcode.eztop_up.Entities.Carrier;
@@ -28,6 +29,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private static final int DB_VERSION = 1;
     private Context context;
     private SQLiteDatabase db;
+    private final String TAG = "DataBaseHelper";
 
     //Database Columns
     private String ID = "_id";
@@ -170,15 +172,22 @@ public class DataBaseHelper extends SQLiteOpenHelper
      *
      *****/
 
-    public void insertCarrier(String name, String ussd, int image)
+    public void insertCarrier(String name, String ussd, Bitmap image)
     {
-        ContentValues values = new ContentValues();
+        try{
+            ContentValues values = new ContentValues();
 
-        values.put(NAME, name);
-        values.put(USSD, ussd);
-        values.put(IMAGE, image);
+            values.put(NAME, name);
+            values.put(USSD, ussd);
+            values.put(IMAGE, DbBitmapUtility.getBytes(image));
 
-        db.insert(CARRIER, null, values);
+            db.insert(CARRIER, null, values);
+        }
+        catch (IOException e)
+        {
+            Log.e(TAG,"IO Exception in insertCarrier() ");
+        }
+
     }
 
     //returns all the records of carriers
@@ -199,7 +208,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
                 String ussd = cursor.getString(cursor.getColumnIndex(USSD));
 
                 Bitmap image = DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(IMAGE)));
-//                int imageId = R.drawable.logo_small_mobitel;
+
                 Carrier carrier = new Carrier(id, name, ussd, image);
                 list.add(carrier);
                 cursor.moveToNext();
@@ -210,42 +219,48 @@ public class DataBaseHelper extends SQLiteOpenHelper
     }
 
 
-//    public Carrier getCarrier(int id) throws NullPointerException
-//    {
-//
-//        Carrier carrier = null;
-//        Cursor cursor = db.query(CARRIER, null, ID + " = ?", new String[]{Integer.toString(id)}, null, null, null);
-//
-//        if (cursor.moveToFirst())
-//        {
-//
-//            String name = cursor.getString(cursor.getColumnIndex(NAME));
-//
-//            String ussd = cursor.getString(cursor.getColumnIndex(USSD));
-//            int imageId = cursor.getInt(cursor.getColumnIndex(IMAGE));
-//
-//            carrier = new Carrier(id, name, ussd, imageId);
-//
-//
-//        }
-//        cursor.close();
-//        return carrier;
-//    }
+    public Carrier getCarrier(int id) throws NullPointerException
+    {
 
-//    public int updateCarrier(Carrier carrier)
-//    {
-//
-//
-//        ContentValues values = new ContentValues();
-//
-//        values.put(ID, carrier.getId());
-//        values.put(NAME, carrier.getName());
-//        values.put(USSD, carrier.getUssd());
-//        values.put(IMAGE, carrier.getImage());
-//
-//        return db.update(CARRIER, values, ID + " = ?", new String[]{Integer.toString(carrier.getId())});
-//
-//    }
+        Carrier carrier = null;
+        Cursor cursor = db.query(CARRIER, null, ID + " = ?", new String[]{Integer.toString(id)}, null, null, null);
+
+        if (cursor.moveToFirst())
+        {
+
+            String name = cursor.getString(cursor.getColumnIndex(NAME));
+
+            String ussd = cursor.getString(cursor.getColumnIndex(USSD));
+            Bitmap image = DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(IMAGE)));
+
+            carrier = new Carrier(id, name, ussd, image);
+
+
+        }
+        cursor.close();
+        return carrier;
+    }
+
+    public int updateCarrier(Carrier carrier)
+    {
+        ContentValues values = new ContentValues();
+        try
+        {
+
+
+            values.put(ID, carrier.getId());
+            values.put(NAME, carrier.getName());
+            values.put(USSD, carrier.getUssd());
+            values.put(IMAGE, DbBitmapUtility.getBytes(carrier.getImage()));
+
+
+        }
+        catch (IOException e)
+        {
+            Log.e(TAG,"IO exception in updateCarrier() ");
+        }
+        return db.update(CARRIER, values, ID + " = ?", new String[]{Integer.toString(carrier.getId())});
+    }
 
     public int deleteCarrier(Carrier carrier)
     {
