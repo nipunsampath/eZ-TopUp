@@ -1,14 +1,16 @@
 package com.hashcode.eztop_up.Entities;
 
 
+import android.graphics.Bitmap;
+
 public class Carrier
 {
     private int id;
     private String name;
     private String ussd;
-    private int image;
+    private Bitmap image;
 
-    public Carrier(int id, String name, String ussd, int image)
+    public Carrier(int id, String name, String ussd, Bitmap image)
     {
         this.id = id;
         this.name = name;
@@ -46,12 +48,12 @@ public class Carrier
         this.ussd = ussd;
     }
 
-    public int getImage()
+    public Bitmap getImage()
     {
         return image;
     }
 
-    public void setImage(int image)
+    public void setImage(Bitmap image)
     {
         this.image = image;
     }

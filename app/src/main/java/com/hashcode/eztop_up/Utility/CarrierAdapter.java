@@ -49,7 +49,7 @@ public class CarrierAdapter extends ArrayAdapter<Carrier>
         {
             assert nowCarrier != null;
             nameTextView.setText(nowCarrier.getName());
-            imageView.setImageResource(nowCarrier.getImage());
+            imageView.setImageBitmap(nowCarrier.getImage());
 
         } catch (NullPointerException e)
         {

@@ -7,10 +7,13 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 
 import com.hashcode.eztop_up.Entities.Carrier;
 import com.hashcode.eztop_up.R;
+import com.hashcode.eztop_up.Utility.DbBitmapUtility;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,7 +39,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private String CARRIER = "Carrier";
 
     private String SQL_CREATE_ENTRIES = "CREATE TABLE " + CARRIER + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            NAME + " TEXT," + USSD + " TEXT, " + IMAGE + " INTEGER)";
+            NAME + " TEXT," + USSD + " TEXT, " + IMAGE + " BLOB)";
     private String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS Carrier";
 
     public DataBaseHelper(Context context)
@@ -77,7 +80,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
         if (!dbExist)
         {
 
-            //overwrite the empty database with prepopulated database.
+            //overwrite the empty database with pre-populated database.
             this.getReadableDatabase();
             try
             {
@@ -122,7 +125,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
         return db != null;
     }
 
-    //Copies your database from local assets-folder to the just created empty database in the
+    //Copies the database from local assets-folder to the just created empty database in the
     //system folder, from where it can be accessed and handled.
     private void copyDataBase() throws IOException
     {
@@ -178,9 +181,10 @@ public class DataBaseHelper extends SQLiteOpenHelper
         db.insert(CARRIER, null, values);
     }
 
+    //returns all the records of carriers
     public ArrayList<Carrier> getAll()
     {
-        //returns all the records of carriers
+
         ArrayList<Carrier> list = new ArrayList<>();
 
 
@@ -193,9 +197,10 @@ public class DataBaseHelper extends SQLiteOpenHelper
                 String name = cursor.getString(cursor.getColumnIndex(NAME));
                 int id = cursor.getInt(cursor.getColumnIndex(ID));
                 String ussd = cursor.getString(cursor.getColumnIndex(USSD));
-//                int imageId = cursor.getInt(cursor.getColumnIndex(IMAGE));
-                int imageId = R.drawable.logo_small_dialog;
-                Carrier carrier = new Carrier(id, name, ussd, imageId);
+
+                Bitmap image = DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(IMAGE)));
+//                int imageId = R.drawable.logo_small_mobitel;
+                Carrier carrier = new Carrier(id, name, ussd, image);
                 list.add(carrier);
                 cursor.moveToNext();
             }
@@ -204,42 +209,43 @@ public class DataBaseHelper extends SQLiteOpenHelper
         return list;
     }
 
-    public Carrier getCarrier(int id) throws NullPointerException
-    {
 
-        Carrier carrier = null;
-        Cursor cursor = db.query(CARRIER, null, ID + " = ?", new String[]{Integer.toString(id)}, null, null, null);
+//    public Carrier getCarrier(int id) throws NullPointerException
+//    {
+//
+//        Carrier carrier = null;
+//        Cursor cursor = db.query(CARRIER, null, ID + " = ?", new String[]{Integer.toString(id)}, null, null, null);
+//
+//        if (cursor.moveToFirst())
+//        {
+//
+//            String name = cursor.getString(cursor.getColumnIndex(NAME));
+//
+//            String ussd = cursor.getString(cursor.getColumnIndex(USSD));
+//            int imageId = cursor.getInt(cursor.getColumnIndex(IMAGE));
+//
+//            carrier = new Carrier(id, name, ussd, imageId);
+//
+//
+//        }
+//        cursor.close();
+//        return carrier;
+//    }
 
-        if (cursor.moveToFirst())
-        {
-
-            String name = cursor.getString(cursor.getColumnIndex(NAME));
-
-            String ussd = cursor.getString(cursor.getColumnIndex(USSD));
-            int imageId = cursor.getInt(cursor.getColumnIndex(IMAGE));
-
-            carrier = new Carrier(id, name, ussd, imageId);
-
-
-        }
-        cursor.close();
-        return carrier;
-    }
-
-    public int updateCarrier(Carrier carrier)
-    {
-
-
-        ContentValues values = new ContentValues();
-
-        values.put(ID, carrier.getId());
-        values.put(NAME, carrier.getName());
-        values.put(USSD, carrier.getUssd());
-        values.put(IMAGE, carrier.getImage());
-
-        return db.update(CARRIER, values, ID + " = ?", new String[]{Integer.toString(carrier.getId())});
-
-    }
+//    public int updateCarrier(Carrier carrier)
+//    {
+//
+//
+//        ContentValues values = new ContentValues();
+//
+//        values.put(ID, carrier.getId());
+//        values.put(NAME, carrier.getName());
+//        values.put(USSD, carrier.getUssd());
+//        values.put(IMAGE, carrier.getImage());
+//
+//        return db.update(CARRIER, values, ID + " = ?", new String[]{Integer.toString(carrier.getId())});
+//
+//    }
 
     public int deleteCarrier(Carrier carrier)
     {
