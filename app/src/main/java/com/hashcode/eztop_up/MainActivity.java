@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
         flash.setVisibility(View.GONE);
         carrierLogo = findViewById(R.id.carrierLogo);
         if (currentCarrier != null)
-            carrierLogo.setImageResource(currentCarrier.getImage());
+            carrierLogo.setImageBitmap(currentCarrier.getImage());
         assert carrierLogo != null;
         carrierLogo.setVisibility(View.GONE);
         carrierLogo.setOnClickListener(new View.OnClickListener()
