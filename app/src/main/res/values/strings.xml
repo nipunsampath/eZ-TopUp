@@ -3,4 +3,14 @@
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="image_of_the_carrier">image of the carrier</string>
     <string name="scaning">Scaning....</string>
+    <string name="add">Add Carrier</string>
+    <string name="edit">Edit Carrier</string>
+    <string name="delete">Delete Carrier</string>
+    <string name="title_activity_edit_carrier">Edit Carrier</string>
+    <string name="save">Save</string>
+    <string name="carrier_name">Carrier Name</string>
+    <string name="ussd">USSD</string>
+    <string name="title_activity_add_carrier">Add Carrier</string>
+    <string name="title_activity_modify_carrier">Modify Carrier</string>
+    <string name="scan_mode">Scan Mode</string>
 </resources>

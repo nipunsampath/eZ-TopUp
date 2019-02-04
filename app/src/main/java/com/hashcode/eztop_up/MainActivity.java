@@ -124,12 +124,12 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 CarrierDialog dialogBox = new CarrierDialog(MainActivity.this);
-                dialogBox.Buld(MainActivity.this);
+                dialogBox.Build(MainActivity.this,CarrierDialog.CARRIER_SELECTION);
             }
         });
         scanningIcon = findViewById(R.id.scaningIcon);
         scanningIcon.setVisibility(View.INVISIBLE);
-        scan();
+//        scan();
     }
 
 
