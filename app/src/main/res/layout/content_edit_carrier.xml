@@ -10,11 +10,19 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+
+        android:layout_marginBottom="8dp"
         android:background="@color/colorToolbar"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:navigationIcon="?attr/homeAsUpIndicator"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:navigationIcon="@drawable/left_arrow"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <LinearLayout
         android:id="@+id/textFieldsLayout"
@@ -23,6 +31,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:background="@drawable/rounded_view_background"
+        android:elevation="5dp"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -30,8 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.363"
-        android:elevation = "5dp">
+        app:layout_constraintVertical_bias="0.363">
 
 
         <EditText
@@ -93,9 +101,9 @@
         android:id="@+id/carrierLogo_edit_carrier"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:elevation = "8dp"
-        android:src="@drawable/logo_small_mobitel"
         android:background="@drawable/logo_background"
+        android:elevation="8dp"
+        android:src="@drawable/logo_small_mobitel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

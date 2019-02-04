@@ -15,7 +15,6 @@ import com.hashcode.eztop_up.AddCarrier;
 import com.hashcode.eztop_up.DataRepository.DataBaseHelper;
 import com.hashcode.eztop_up.EditCarriers;
 import com.hashcode.eztop_up.Entities.Carrier;
-import com.hashcode.eztop_up.MainActivity;
 import com.hashcode.eztop_up.ModifyCarrier;
 import com.hashcode.eztop_up.R;
 
@@ -24,6 +23,8 @@ import java.util.ArrayList;
 
 public class CarrierDialog
 {
+    public static final String TAG = "Carrier Dialog";
+
     public static Carrier currentCarrier;
     private Context context;
     private DataBaseHelper helper;

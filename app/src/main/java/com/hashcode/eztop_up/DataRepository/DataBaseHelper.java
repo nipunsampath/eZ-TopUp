@@ -8,12 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
-
 import com.hashcode.eztop_up.Entities.Carrier;
-import com.hashcode.eztop_up.R;
 import com.hashcode.eztop_up.Utility.DbBitmapUtility;
 
 import java.io.FileOutputStream;

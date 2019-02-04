@@ -2,17 +2,19 @@ package com.hashcode.eztop_up;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
 
 import com.hashcode.eztop_up.Utility.CarrierDialog;
 
+/**
+ * Activity that acts as a menu for Carrier Insertion, Modification and Deletion.
+ */
 public class EditCarriers extends AppCompatActivity
 {
+    public static final String TAG = "Edit Carrier";
+
     private View addCarrier;
     private View editCarrier;
     private View deleteCarrier;
@@ -28,10 +30,12 @@ public class EditCarriers extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                // back button pressed
+            public void onClick(View v)
+            {
+                onBackPressed();
             }
         });
 
@@ -47,7 +51,7 @@ public class EditCarriers extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                dialogBox.Build(EditCarriers.this,CarrierDialog.CARRIER_ADDITION);
+                dialogBox.Build(EditCarriers.this, CarrierDialog.CARRIER_ADDITION);
             }
         });
 
@@ -56,7 +60,7 @@ public class EditCarriers extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                dialogBox.Build(EditCarriers.this,CarrierDialog.CARRIER_MODIFICATION);
+                dialogBox.Build(EditCarriers.this, CarrierDialog.CARRIER_MODIFICATION);
             }
         });
 
@@ -65,7 +69,7 @@ public class EditCarriers extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                dialogBox.Build(EditCarriers.this,CarrierDialog.CARRIER_DELETION);
+                dialogBox.Build(EditCarriers.this, CarrierDialog.CARRIER_DELETION);
             }
         });
 
@@ -74,7 +78,7 @@ public class EditCarriers extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(EditCarriers.this,MainActivity.class);
+                Intent intent = new Intent(EditCarriers.this, MainActivity.class);
                 startActivity(intent);
             }
         });

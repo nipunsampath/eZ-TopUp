@@ -14,7 +14,7 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:navigationIcon="?attr/homeAsUpIndicator"/>
+        app:navigationIcon="@drawable/left_arrow"/>
 
     <LinearLayout
         android:layout_width="match_parent"

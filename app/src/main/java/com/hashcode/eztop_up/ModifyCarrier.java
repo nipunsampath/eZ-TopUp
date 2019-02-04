@@ -2,14 +2,11 @@ package com.hashcode.eztop_up;
 
 import android.content.Intent;
 import android.database.SQLException;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -24,11 +21,11 @@ import com.hashcode.eztop_up.Utility.CropDialog;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.util.BitSet;
 
 public class ModifyCarrier extends AppCompatActivity
 {
+
+    public static final String TAG = "Modify Carrier";
 
     public static final int OPEN_GALLERY_CODE = 22;
 
@@ -52,8 +49,18 @@ public class ModifyCarrier extends AppCompatActivity
 //        Carrier Carrier = (Carrier) getIntent().getSerializableExtra("Carrier");
 
         setContentView(R.layout.content_edit_carrier);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        //handling the toolbar
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                onBackPressed();
+            }
+        });
 
         final ImageView carrierLogo = findViewById(R.id.carrierLogo_edit_carrier);
         final EditText carrierName = findViewById(R.id.carrierName);

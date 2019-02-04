@@ -9,7 +9,7 @@
     <string name="title_activity_edit_carrier">Edit Carrier</string>
     <string name="save">Save</string>
     <string name="carrier_name">Carrier Name</string>
-    <string name="ussd">USSD</string>
+    <string name="ussd">USSD Code</string>
     <string name="title_activity_add_carrier">Add Carrier</string>
     <string name="title_activity_modify_carrier">Modify Carrier</string>
     <string name="scan_mode">Scan Mode</string>

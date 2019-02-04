@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 public class Carrier implements Parcelable
 {
     private int id;
@@ -22,15 +20,9 @@ public class Carrier implements Parcelable
         this.image = image;
     }
 
-    public Carrier(String name, String ussd, Bitmap image)
-    {
 
-        this.name = name;
-        this.ussd = ussd;
-        this.image = image;
-    }
 
-    public Carrier(Parcel in)
+    private Carrier(Parcel in)
     {
         this.id = in.readInt();
         this.name = in.readString();
@@ -79,6 +71,7 @@ public class Carrier implements Parcelable
     {
         return ussd;
     }
+
 
     public void setUssd(String ussd)
     {
