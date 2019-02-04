@@ -51,7 +51,9 @@ public class EditCarriers extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                dialogBox.Build(EditCarriers.this, CarrierDialog.CARRIER_ADDITION);
+//                dialogBox.Build(EditCarriers.this, CarrierDialog.CARRIER_ADDITION);
+                Intent intent = new Intent(EditCarriers.this,AddCarrier.class);
+                startActivity(intent);
             }
         });
 
