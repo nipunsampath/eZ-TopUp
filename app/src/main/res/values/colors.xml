@@ -3,4 +3,8 @@
     <color name="colorPrimary">#bbb</color>
     <color name="colorPrimaryDark">#00BF39</color>
     <color name="colorToolbar">#19ff5d</color>
+    <color name="overlay">#aa1c1c1c</color>
+    <color name="cropHandleColor">#86c166</color>
+    <color name="cropGuideColor">#aa86c166</color>
+    <color name="cropFrameColor">#86c166</color>
 </resources>

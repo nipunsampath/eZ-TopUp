@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,12 +20,30 @@ import android.widget.ImageView;
 import com.hashcode.eztop_up.DataRepository.DataBaseHelper;
 import com.hashcode.eztop_up.Entities.Carrier;
 import com.hashcode.eztop_up.Utility.CarrierDialog;
+import com.hashcode.eztop_up.Utility.CropDialog;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.BitSet;
 
 public class ModifyCarrier extends AppCompatActivity
 {
+
+    public static final int OPEN_GALLERY_CODE = 22;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == OPEN_GALLERY_CODE)
+        {
+            assert data != null;
+            Uri imageURI = data.getData();
+            CropDialog cropDialog = new CropDialog();
+            cropDialog.Build(ModifyCarrier.this,imageURI);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,6 +64,24 @@ public class ModifyCarrier extends AppCompatActivity
         USSD.setText(CarrierDialog.currentCarrier.getUssd());
 
         Button save = findViewById(R.id.save_button);
+
+
+        carrierLogo.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //opening gallery for image selection
+                Intent imagePicker = new Intent(Intent.ACTION_PICK);
+
+                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                String pictureDirPath = pictureDirectory.getParent();
+                Uri data = Uri.parse(pictureDirPath);
+
+                imagePicker.setDataAndType(data,"image/*");
+                startActivityForResult(imagePicker, OPEN_GALLERY_CODE);
+            }
+        });
 
         save.setOnClickListener(new View.OnClickListener()
         {
@@ -72,6 +111,7 @@ public class ModifyCarrier extends AppCompatActivity
                         throw new Error("Unable to create database");
                     }
                     helper.updateCarrier(modifiedCarrier);
+                    helper.close();
                 }
 
                 Intent intent = new Intent(ModifyCarrier.this,EditCarriers.class);

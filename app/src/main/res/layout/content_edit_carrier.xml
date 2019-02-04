@@ -91,8 +91,8 @@
 
     <ImageView
         android:id="@+id/carrierLogo_edit_carrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:elevation = "8dp"
         android:src="@drawable/logo_small_mobitel"
         android:background="@drawable/logo_background"
