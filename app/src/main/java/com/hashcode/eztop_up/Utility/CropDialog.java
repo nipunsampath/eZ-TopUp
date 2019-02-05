@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class CropDialog
     private Activity activity;
     private View mCropButton;
     private Bitmap.CompressFormat mCompressFormat = Bitmap.CompressFormat.PNG;
+    private Button mCancelButton;
 
     public void Build(final Activity activity, final Uri imageUri)
     {
@@ -51,11 +53,13 @@ public class CropDialog
         this.activity = activity;
         mCropView = mView.findViewById(R.id.cropImageView);
         mCropButton = mView.findViewById(R.id.cropButton);
+        mCancelButton = mView.findViewById(R.id.cancelButton);
         mCropView.setCropMode(CropImageView.CropMode.CIRCLE);
         mCropView.setInitialFrameScale(1.0f);
         mCropView.setOutputWidth(100);
         mCropView.setOutputHeight(100);
-        mCropView.setDebug(true);
+
+//        mCropView.setDebug(true);
 
         mCropView.load(imageUri).execute(mLoadCallback);
         mCropButton.setOnClickListener(new View.OnClickListener()
@@ -78,6 +82,15 @@ public class CropDialog
                     {
                     }
                 });
+            }
+        });
+
+        mCancelButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                dialog.cancel();
             }
         });
 

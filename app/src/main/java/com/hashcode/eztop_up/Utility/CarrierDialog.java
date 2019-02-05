@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.hashcode.eztop_up.AddCarrier;
 import com.hashcode.eztop_up.DataRepository.DataBaseHelper;
 import com.hashcode.eztop_up.EditCarriers;
 import com.hashcode.eztop_up.Entities.Carrier;
+import com.hashcode.eztop_up.MainActivity;
 import com.hashcode.eztop_up.ModifyCarrier;
 import com.hashcode.eztop_up.R;
 
@@ -122,8 +124,7 @@ public class CarrierDialog
 
                     }
                 });
-            }
-            else if(mode == CARRIER_DELETION)
+            } else if (mode == CARRIER_DELETION)
             {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
                 {
@@ -133,7 +134,13 @@ public class CarrierDialog
                     {
                         currentCarrier = (Carrier) parent.getItemAtPosition(position);
                         dialog.cancel();
-                        helper.deleteCarrier(currentCarrier);
+                        int status = helper.deleteCarrier(currentCarrier);
+                        if (status != 0) // status = 0 if no deletion ocured
+                        {
+                            Toast.makeText(activity, "NetWork Career Deleted", Toast.LENGTH_LONG).show();
+                            currentCarrier = MainActivity.placeholder;
+                        } else
+                            Toast.makeText(activity, "NetWork Career Could not be Deleted", Toast.LENGTH_LONG).show();
                         helper.close();
 
 

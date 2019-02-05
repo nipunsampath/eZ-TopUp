@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.hashcode.eztop_up.DataRepository.DataBaseHelper;
 import com.hashcode.eztop_up.Entities.Carrier;
@@ -121,6 +122,7 @@ public class ModifyCarrier extends AppCompatActivity
                     helper.close();
                 }
 
+                Toast.makeText(ModifyCarrier.this,"NetWork Career Modified",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(ModifyCarrier.this,EditCarriers.class);
                 startActivity(intent);
             }
