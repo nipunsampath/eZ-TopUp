@@ -179,6 +179,7 @@ public class CarrierDialog
             throw new Error("Unable to create database");
         }
 
+        MainActivity.carrierList = helper.getAll();
         carrierAdapter = new CarrierAdapter(activity.getApplicationContext(), MainActivity.carrierList);
 
         listView = mView.findViewById(R.id.list_item_view);
