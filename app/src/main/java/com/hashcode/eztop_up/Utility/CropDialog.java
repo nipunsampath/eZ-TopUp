@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.hashcode.eztop_up.MainActivity;
 import com.hashcode.eztop_up.R;
 import com.isseiaoki.simplecropview.CropImageView;
 import com.isseiaoki.simplecropview.callback.CropCallback;
@@ -58,6 +59,8 @@ public class CropDialog
         mCropView.setInitialFrameScale(1.0f);
         mCropView.setOutputWidth(100);
         mCropView.setOutputHeight(100);
+
+        MainActivity.dialogCalled = true;
 
 //        mCropView.setDebug(true);
 

@@ -3,6 +3,7 @@ package com.hashcode.eztop_up.Utility;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.SQLException;
 import android.support.design.widget.FloatingActionButton;
@@ -50,12 +51,21 @@ public class CarrierDialog
     {
 
         mBuilder = new AlertDialog.Builder(activity);
+        MainActivity.dialogCalled = true;
 
         if (mode == CARRIER_SELECTION)
         {
             mView = activity.getLayoutInflater().inflate(R.layout.carrier_dialog, null);
             FloatingActionButton editButton = mView.findViewById(R.id.editFlotingActionButton);
 
+            mBuilder.setOnCancelListener(new DialogInterface.OnCancelListener()
+            {
+                @Override
+                public void onCancel(DialogInterface dialog)
+                {
+                    MainActivity.dialogCalled = false;
+                }
+            });
             getDB(activity);
 
 

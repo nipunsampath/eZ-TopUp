@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
@@ -45,6 +46,14 @@ public class RechargeDialog
 
         carrierName.setText(MainActivity.currentCarrier.getName());
         this.rechargeCode.setText(rechargeCode);
+        mBuilder.setOnCancelListener(new DialogInterface.OnCancelListener()
+        {
+            @Override
+            public void onCancel(DialogInterface dialog)
+            {
+                MainActivity.dialogCalled = false;
+            }
+        });
 
         dialog = mBuilder.create();
 
@@ -54,7 +63,7 @@ public class RechargeDialog
             @Override
             public void onClick(View v)
             {
-                String ussdCode = MainActivity.currentCarrier.getUssd() + Uri.encode("#");
+                String ussdCode = MainActivity.currentCarrier.getUssd()+ rechargeCode + Uri.encode("#");
                 activity.startActivity(new Intent("android.intent.action.CALL", Uri.parse("tel:" + ussdCode)));
             }
         });

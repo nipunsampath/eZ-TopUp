@@ -1,5 +1,6 @@
 package com.hashcode.eztop_up;
 
+import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
@@ -55,13 +56,9 @@ public class MainActivity extends AppCompatActivity
     private TextView scanningText;
     private DataBaseHelper helper;
     private Detector.Processor<TextBlock> textProcessor;
+    private BoxDetector wrappedDetector;
+    public static boolean dialogCalled = false;
 
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -74,13 +71,14 @@ public class MainActivity extends AppCompatActivity
         scanningText = findViewById(R.id.scanningText);
         carrierList = getAllCarriers();
 
+        dialogCalled = false;
         TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         float logicalDensity = metrics.density;
 
         //wrap text detector to recognize text in the middle
-        BoxDetector wrappedDetector = new BoxDetector(textRecognizer, (int) Math.ceil(400 * logicalDensity), (int) Math.ceil(100 * logicalDensity));
+        wrappedDetector = new BoxDetector(textRecognizer, (int) Math.ceil(400 * logicalDensity), (int) Math.ceil(100 * logicalDensity));
 
         if (!textRecognizer.isOperational())
         {
@@ -158,17 +156,22 @@ public class MainActivity extends AppCompatActivity
                                 stringBuilder.append(s);
 
 
-                                String rechargeCode = "";
+                                String rechargeCode = "12";
                                 String scannedString = stringBuilder.toString();
-                                if (scannedString.length() >= 12)
+                                if (scannedString.length() >= 12 && !dialogCalled)
                                 {
+
                                     rechargeCode = scannedString.substring(0, 12);
+                                    dialogCalled = true;
+
                                     RechargeDialog dialog = new RechargeDialog();
                                     dialog.Build(rechargeCode, MainActivity.this);
-                                    onPause();
+
+
                                 }
 
                             }
+
                         });
                     }
                 }
@@ -287,6 +290,5 @@ public class MainActivity extends AppCompatActivity
 
         return helper.getAll();
     }
-
 
 }
