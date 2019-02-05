@@ -7,4 +7,5 @@
     <color name="cropHandleColor">#86c166</color>
     <color name="cropGuideColor">#aa86c166</color>
     <color name="cropFrameColor">#86c166</color>
+    <color name="dialog_background">#DCDCDC</color>
 </resources>

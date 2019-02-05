@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.hashcode.eztop_up.DataRepository.DataBaseHelper;
 import com.hashcode.eztop_up.Entities.Carrier;
-import com.hashcode.eztop_up.Utility.CarrierDialog;
 import com.hashcode.eztop_up.Utility.CropDialog;
 
 import java.io.File;
@@ -67,9 +66,9 @@ public class ModifyCarrier extends AppCompatActivity
         final EditText carrierName = findViewById(R.id.carrierName);
         final EditText USSD = findViewById(R.id.ussdInput);
 
-        carrierLogo.setImageBitmap(CarrierDialog.currentCarrier.getImage());
-        carrierName.setText(CarrierDialog.currentCarrier.getName());
-        USSD.setText(CarrierDialog.currentCarrier.getUssd());
+        carrierLogo.setImageBitmap(MainActivity.currentCarrier.getImage());
+        carrierName.setText(MainActivity.currentCarrier.getName());
+        USSD.setText(MainActivity.currentCarrier.getUssd());
 
         Button save = findViewById(R.id.save_button);
 
@@ -97,9 +96,9 @@ public class ModifyCarrier extends AppCompatActivity
             public void onClick(View v)
             {
 
-                Carrier modifiedCarrier = new Carrier(CarrierDialog.currentCarrier.getId(),carrierName.getText().toString(),USSD.getText().toString(), ((BitmapDrawable)carrierLogo.getDrawable()).getBitmap());
+                Carrier modifiedCarrier = new Carrier(MainActivity.currentCarrier.getId(),carrierName.getText().toString(),USSD.getText().toString(), ((BitmapDrawable)carrierLogo.getDrawable()).getBitmap());
 
-                if(!CarrierDialog.currentCarrier.equals(modifiedCarrier))
+                if(!MainActivity.currentCarrier.equals(modifiedCarrier))
                 {
                     DataBaseHelper helper = new DataBaseHelper(ModifyCarrier.this);
 

@@ -21,18 +21,15 @@ import com.hashcode.eztop_up.ModifyCarrier;
 import com.hashcode.eztop_up.R;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class CarrierDialog
 {
     public static final String TAG = "Carrier Dialog";
 
-    public static Carrier currentCarrier;
     private Context context;
-    private DataBaseHelper helper;
+
     private View mView;
     private AlertDialog.Builder mBuilder;
-    private ArrayList<Carrier> carrierList;
     private CarrierAdapter carrierAdapter;
     private ListView listView;
     private AlertDialog dialog;
@@ -42,6 +39,7 @@ public class CarrierDialog
     public static final int CARRIER_ADDITION = 2;
     public static final int CARRIER_MODIFICATION = 3;
     public static final int CARRIER_DELETION = 4;
+    private DataBaseHelper helper;
 
     public CarrierDialog(Context context)
     {
@@ -67,11 +65,11 @@ public class CarrierDialog
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                 {
-                    currentCarrier = (Carrier) parent.getItemAtPosition(position);
+                    MainActivity.currentCarrier = (Carrier) parent.getItemAtPosition(position);
 
                     dialog.cancel();
                     ImageView logo = activity.findViewById(R.id.carrierLogo);
-                    logo.setImageBitmap(currentCarrier.getImage());
+                    logo.setImageBitmap(MainActivity.currentCarrier.getImage());
 
                 }
             });
@@ -101,7 +99,7 @@ public class CarrierDialog
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                     {
-                        currentCarrier = (Carrier) parent.getItemAtPosition(position);
+                        MainActivity.currentCarrier = (Carrier) parent.getItemAtPosition(position);
                         Intent intent = new Intent(activity.getApplicationContext(), AddCarrier.class);
                         activity.startActivity(intent);
 
@@ -116,7 +114,7 @@ public class CarrierDialog
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                     {
-                        currentCarrier = (Carrier) parent.getItemAtPosition(position);
+                        MainActivity.currentCarrier = (Carrier) parent.getItemAtPosition(position);
                         Intent intent = new Intent(activity, ModifyCarrier.class);
 //                        intent.putExtra("Carrier",currentCarrier);
                         activity.startActivity(intent);
@@ -132,13 +130,13 @@ public class CarrierDialog
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                     {
-                        currentCarrier = (Carrier) parent.getItemAtPosition(position);
+                        MainActivity.currentCarrier = (Carrier) parent.getItemAtPosition(position);
                         dialog.cancel();
-                        int status = helper.deleteCarrier(currentCarrier);
+                        int status = helper.deleteCarrier(MainActivity.currentCarrier);
                         if (status != 0) // status = 0 if no deletion ocured
                         {
                             Toast.makeText(activity, "NetWork Career Deleted", Toast.LENGTH_LONG).show();
-                            currentCarrier = MainActivity.placeholder;
+                            MainActivity.currentCarrier = MainActivity.placeholder;
                         } else
                             Toast.makeText(activity, "NetWork Career Could not be Deleted", Toast.LENGTH_LONG).show();
                         helper.close();
@@ -171,9 +169,7 @@ public class CarrierDialog
             throw new Error("Unable to create database");
         }
 
-        carrierList = helper.getAll();
-
-        carrierAdapter = new CarrierAdapter(activity.getApplicationContext(), carrierList);
+        carrierAdapter = new CarrierAdapter(activity.getApplicationContext(), MainActivity.carrierList);
 
         listView = mView.findViewById(R.id.list_item_view);
         listView.setAdapter(carrierAdapter);

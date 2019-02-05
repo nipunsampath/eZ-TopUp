@@ -1,13 +1,12 @@
 package com.hashcode.eztop_up;
 
+import android.database.SQLException;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.SurfaceTexture;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
@@ -15,10 +14,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.TextureView;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,13 +23,14 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 import com.hashcode.eztop_up.Camera.BoxDetector;
 import com.hashcode.eztop_up.Camera.CameraSource;
+import com.hashcode.eztop_up.DataRepository.DataBaseHelper;
 import com.hashcode.eztop_up.Entities.Carrier;
 import com.hashcode.eztop_up.Utility.CarrierDialog;
 import com.hashcode.eztop_up.Utility.InputValidation;
+import com.hashcode.eztop_up.Utility.RechargeDialog;
 
 import java.io.IOException;
-
-import static com.hashcode.eztop_up.Utility.CarrierDialog.currentCarrier;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -42,6 +39,8 @@ public class MainActivity extends AppCompatActivity
 
 
     public static Carrier placeholder;
+    public static Carrier currentCarrier;
+    public static ArrayList<Carrier> carrierList;
     private SurfaceView cameraView;
     private ImageView flash;
 
@@ -54,7 +53,15 @@ public class MainActivity extends AppCompatActivity
     private ImageView scanningIcon;
     private CameraSource cameraSource;
     private TextView scanningText;
+    private DataBaseHelper helper;
+    private Detector.Processor<TextBlock> textProcessor;
 
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -65,6 +72,7 @@ public class MainActivity extends AppCompatActivity
         cameraView.setZOrderOnTop(false);
         assert cameraView != null;
         scanningText = findViewById(R.id.scanningText);
+        carrierList = getAllCarriers();
 
         TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
         DisplayMetrics metrics = new DisplayMetrics();
@@ -122,7 +130,7 @@ public class MainActivity extends AppCompatActivity
                 }
             });
 
-            wrappedDetector.setProcessor(new Detector.Processor<TextBlock>()
+            textProcessor = new Detector.Processor<TextBlock>()
             {
                 @Override
                 public void release()
@@ -144,19 +152,28 @@ public class MainActivity extends AppCompatActivity
                             {
                                 StringBuilder stringBuilder = new StringBuilder();
 
-                                    TextBlock item = items.valueAt(0);
+                                TextBlock item = items.valueAt(0);
 
-                                    String s = InputValidation.getNumbers(item.getValue());
-                                    stringBuilder.append(s);
-                                    stringBuilder.append("\n");
+                                String s = InputValidation.getNumbers(item.getValue());
+                                stringBuilder.append(s);
 
 
-                                scanningText.setText(stringBuilder.toString());
+                                String rechargeCode = "";
+                                String scannedString = stringBuilder.toString();
+                                if (scannedString.length() >= 12)
+                                {
+                                    rechargeCode = scannedString.substring(0, 12);
+                                    RechargeDialog dialog = new RechargeDialog();
+                                    dialog.Build(rechargeCode, MainActivity.this);
+                                    onPause();
+                                }
+
                             }
                         });
                     }
                 }
-            });
+            };
+            wrappedDetector.setProcessor(textProcessor);
 
             placeholder = new Carrier(0, "Placeholder", "placeholder", BitmapFactory.decodeResource(getResources(), R.drawable.no_logo));
             flash = findViewById(R.id.flashIcon);
@@ -178,12 +195,14 @@ public class MainActivity extends AppCompatActivity
 
                 }
             });
-//            flash.setVisibility(View.GONE);
+
+            if (currentCarrier == null)
+                currentCarrier = carrierList.get(0);
             carrierLogo = findViewById(R.id.carrierLogo);
             if (currentCarrier != null)
                 carrierLogo.setImageBitmap(currentCarrier.getImage());
             assert carrierLogo != null;
-//            carrierLogo.setVisibility(View.GONE);
+
             carrierLogo.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -243,6 +262,30 @@ public class MainActivity extends AppCompatActivity
             }
             break;
         }
+    }
+
+
+    public ArrayList<Carrier> getAllCarriers()
+    {
+        helper = new DataBaseHelper(this);
+
+        try
+        {
+
+            helper.createDataBase();
+            helper.openDataBase();
+
+        } catch (IOException ioe)
+        {
+
+            throw new Error("Unable to create database");
+
+        } catch (SQLException e)
+        {
+            throw new Error("Unable to create database");
+        }
+
+        return helper.getAll();
     }
 
 

@@ -14,5 +14,8 @@
     <string name="title_activity_modify_carrier">Modify Carrier</string>
     <string name="scan_mode">Scan Mode</string>
     <string name="crop">Crop</string>
+    <string name="your_recharge_pin">Your Recharge PIN:</string>
+    <string name="network_carrier">Network Carrier:</string>
+    <string name="recharge">Recharge</string>
     <string name="cancel">Cancel</string>
 </resources>
