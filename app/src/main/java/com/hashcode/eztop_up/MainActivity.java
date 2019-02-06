@@ -17,6 +17,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
@@ -185,14 +186,22 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v)
                 {
-                    if (isFlasherOn)
+                    boolean hasFlash = MainActivity.this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+
+                    if (hasFlash)
                     {
-                        toggleFlash(0);
-                        flash.setImageResource(R.drawable.flash_off);
+                        if (isFlasherOn)
+                        {
+                            toggleFlash(0);
+                            flash.setImageResource(R.drawable.flash_off);
+                        } else
+                        {
+                            toggleFlash(1);
+                            flash.setImageResource(R.drawable.flash_on);
+                        }
                     } else
                     {
-                        toggleFlash(1);
-                        flash.setImageResource(R.drawable.flash_on);
+                        Toast.makeText(MainActivity.this, "Device does not have a flasher", Toast.LENGTH_LONG).show();
                     }
 
                 }

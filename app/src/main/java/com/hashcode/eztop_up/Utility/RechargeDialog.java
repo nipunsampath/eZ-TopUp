@@ -63,7 +63,7 @@ public class RechargeDialog
             @Override
             public void onClick(View v)
             {
-                String ussdCode = MainActivity.currentCarrier.getUssd()+ rechargeCode + Uri.encode("#");
+                String ussdCode = Uri.encode(MainActivity.currentCarrier.getUssd()+ rechargeCode + "#");
                 activity.startActivity(new Intent("android.intent.action.CALL", Uri.parse("tel:" + ussdCode)));
             }
         });
