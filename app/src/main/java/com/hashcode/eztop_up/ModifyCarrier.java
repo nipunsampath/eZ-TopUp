@@ -5,7 +5,6 @@ import android.database.SQLException;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 
 import com.hashcode.eztop_up.DataRepository.DataBaseHelper;
 import com.hashcode.eztop_up.Entities.Carrier;
-import com.hashcode.eztop_up.Utility.CropDialog;
+import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,17 +27,20 @@ public class ModifyCarrier extends AppCompatActivity
     public static final String TAG = "Modify Carrier";
 
     public static final int OPEN_GALLERY_CODE = 22;
+    private ImageView carrierLogo;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == OPEN_GALLERY_CODE)
+
+
+        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK)
         {
-            assert data != null;
-            Uri imageURI = data.getData();
-            CropDialog cropDialog = new CropDialog();
-            cropDialog.Build(ModifyCarrier.this,imageURI);
+            beginCrop(data.getData());
+        } else if (requestCode == Crop.REQUEST_CROP)
+        {
+            handleCrop(resultCode, data);
         }
     }
 
@@ -62,7 +64,7 @@ public class ModifyCarrier extends AppCompatActivity
             }
         });
 
-        final ImageView carrierLogo = findViewById(R.id.carrierLogo_edit_carrier);
+        carrierLogo = findViewById(R.id.carrierLogo_edit_carrier);
         final EditText carrierName = findViewById(R.id.carrierName);
         final EditText USSD = findViewById(R.id.ussdInput);
 
@@ -79,14 +81,15 @@ public class ModifyCarrier extends AppCompatActivity
             public void onClick(View v)
             {
                 //opening gallery for image selection
-                Intent imagePicker = new Intent(Intent.ACTION_PICK);
-
-                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                String pictureDirPath = pictureDirectory.getParent();
-                Uri data = Uri.parse(pictureDirPath);
-
-                imagePicker.setDataAndType(data,"image/*");
-                startActivityForResult(imagePicker, OPEN_GALLERY_CODE);
+                Crop.pickImage(ModifyCarrier.this);
+//                Intent imagePicker = new Intent(Intent.ACTION_PICK);
+//
+//                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//                String pictureDirPath = pictureDirectory.getParent();
+//                Uri data = Uri.parse(pictureDirPath);
+//
+//                imagePicker.setDataAndType(data,"image/*");
+//                startActivityForResult(imagePicker, OPEN_GALLERY_CODE);
             }
         });
 
@@ -96,9 +99,9 @@ public class ModifyCarrier extends AppCompatActivity
             public void onClick(View v)
             {
 
-                Carrier modifiedCarrier = new Carrier(MainActivity.currentCarrier.getId(),carrierName.getText().toString(),USSD.getText().toString(), ((BitmapDrawable)carrierLogo.getDrawable()).getBitmap());
+                Carrier modifiedCarrier = new Carrier(MainActivity.currentCarrier.getId(), carrierName.getText().toString(), USSD.getText().toString(), ((BitmapDrawable) carrierLogo.getDrawable()).getBitmap());
 
-                if(!MainActivity.currentCarrier.equals(modifiedCarrier))
+                if (!MainActivity.currentCarrier.equals(modifiedCarrier))
                 {
                     DataBaseHelper helper = new DataBaseHelper(ModifyCarrier.this);
 
@@ -121,14 +124,31 @@ public class ModifyCarrier extends AppCompatActivity
                     helper.close();
                 }
 
-                Toast.makeText(ModifyCarrier.this,"NetWork Career Modified",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(ModifyCarrier.this,EditCarriers.class);
+                Toast.makeText(ModifyCarrier.this, "NetWork Career Modified", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(ModifyCarrier.this, EditCarriers.class);
                 startActivity(intent);
             }
         });
 
 
+    }
 
+    private void beginCrop(Uri source)
+    {
+        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        Crop.of(source, destination).asSquare().start(this);
+    }
+
+
+    private void handleCrop(int resultCode, Intent result)
+    {
+        if (resultCode == RESULT_OK)
+        {
+            carrierLogo.setImageURI(Crop.getOutput(result));
+        } else if (resultCode == Crop.RESULT_ERROR)
+        {
+            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

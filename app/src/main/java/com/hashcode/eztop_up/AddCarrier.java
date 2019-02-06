@@ -6,9 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -18,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hashcode.eztop_up.DataRepository.DataBaseHelper;
-import com.hashcode.eztop_up.Utility.CropDialog;
 import com.hashcode.eztop_up.Utility.InputValidation;
+import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +31,7 @@ public class AddCarrier extends AppCompatActivity
     public static final String TAG = "AddCarrier";
     //Request Code
     public static final int OPEN_GALLERY_CODE = 22;
+    private ImageView carrierLogo;
 
     /**
      * Handling the Carrier Logo Croping
@@ -45,12 +44,12 @@ public class AddCarrier extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == OPEN_GALLERY_CODE)
+        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK)
         {
-            assert data != null;
-            Uri imageURI = data.getData();
-            CropDialog cropDialog = new CropDialog();
-            cropDialog.Build(AddCarrier.this, imageURI);
+            beginCrop(data.getData());
+        } else if (requestCode == Crop.REQUEST_CROP)
+        {
+            handleCrop(resultCode, data);
         }
     }
 
@@ -73,7 +72,7 @@ public class AddCarrier extends AppCompatActivity
             }
         });
 
-        final ImageView carrierLogo = findViewById(R.id.carrierLogo_edit_carrier);
+        carrierLogo = findViewById(R.id.carrierLogo_edit_carrier);
         final EditText carrierName = findViewById(R.id.carrierName);
         final EditText USSD = findViewById(R.id.ussdInput);
 
@@ -89,14 +88,14 @@ public class AddCarrier extends AppCompatActivity
             public void onClick(View v)
             {
                 //opening gallery for image selection
-                Intent imagePicker = new Intent(Intent.ACTION_PICK);
+//                Intent imagePicker = new Intent(Intent.ACTION_PICK);
+                Crop.pickImage(AddCarrier.this);
+//                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//                String pictureDirPath = pictureDirectory.getParent();
+//                Uri data = Uri.parse(pictureDirPath);
 
-                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                String pictureDirPath = pictureDirectory.getParent();
-                Uri data = Uri.parse(pictureDirPath);
-
-                imagePicker.setDataAndType(data, "image/*");
-                startActivityForResult(imagePicker, OPEN_GALLERY_CODE);
+//                imagePicker.setDataAndType(data, "image/*");
+//                startActivityForResult(imagePicker, OPEN_GALLERY_CODE);
             }
         });
 
@@ -108,7 +107,7 @@ public class AddCarrier extends AppCompatActivity
                 String name = carrierName.getText().toString();
                 String ussd = USSD.getText().toString();
                 Drawable drawable = carrierLogo.getDrawable();
-                if(!name.equals("") && !ussd.equals("") && InputValidation.validateUSSD(ussd))
+                if (!name.equals("") && !ussd.equals("") && InputValidation.validateUSSD(ussd))
                 {
                     DataBaseHelper helper = new DataBaseHelper(AddCarrier.this);
 
@@ -129,7 +128,6 @@ public class AddCarrier extends AppCompatActivity
                     }
 
 
-
                     helper.insertCarrier(name, ussd, ((BitmapDrawable) drawable).getBitmap());
                     helper.close();
 
@@ -137,13 +135,30 @@ public class AddCarrier extends AppCompatActivity
 
                     Intent intent = new Intent(AddCarrier.this, EditCarriers.class);
                     startActivity(intent);
-                }
-                else
+                } else
                 {
-                    Toast.makeText(AddCarrier.this,"Please Check Your Inputs Again",Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddCarrier.this, "Please Check Your Inputs Again", Toast.LENGTH_LONG).show();
                 }
             }
         });
+    }
+
+    private void beginCrop(Uri source)
+    {
+        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        Crop.of(source, destination).asSquare().start(this);
+    }
+
+
+    private void handleCrop(int resultCode, Intent result)
+    {
+        if (resultCode == RESULT_OK)
+        {
+            carrierLogo.setImageURI(Crop.getOutput(result));
+        } else if (resultCode == Crop.RESULT_ERROR)
+        {
+            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
