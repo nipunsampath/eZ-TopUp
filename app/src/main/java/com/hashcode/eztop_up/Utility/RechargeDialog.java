@@ -86,7 +86,7 @@ public class RechargeDialog
                 ClipData clip = ClipData.newPlainText("recharge code", rechargeCode);
                 assert clipboard != null;
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(activity.getApplicationContext(),"Recharge Card Copied To Clipboard ",Toast.LENGTH_LONG).show();
+                Toast.makeText(activity.getApplicationContext(),"Recharge PIN Copied To Clipboard ",Toast.LENGTH_LONG).show();
             }
         });
 

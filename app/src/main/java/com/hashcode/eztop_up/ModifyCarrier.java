@@ -48,9 +48,10 @@ public class ModifyCarrier extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-//        Carrier Carrier = (Carrier) getIntent().getSerializableExtra("Carrier");
+
 
         setContentView(R.layout.content_edit_carrier);
+
         //handling the toolbar
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setTitleTextColor(0xFFFFFFFF);
@@ -121,6 +122,7 @@ public class ModifyCarrier extends AppCompatActivity
                         throw new Error("Unable to create database");
                     }
                     helper.updateCarrier(modifiedCarrier);
+                    MainActivity.currentCarrier = modifiedCarrier;
                     helper.close();
                 }
 

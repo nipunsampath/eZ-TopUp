@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity
             });
             scanningIcon = findViewById(R.id.scaningIcon);
             scanningIcon.setVisibility(View.INVISIBLE);
-//        scan();
+
         }
     }
 

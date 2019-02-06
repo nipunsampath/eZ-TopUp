@@ -8,14 +8,14 @@
 
 
     <!--<TextureView-->
-        <!--android:id="@+id/textureView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="0.5"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
+    <!--android:id="@+id/textureView"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintHorizontal_bias="0.5"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
 
     <SurfaceView
         android:id="@+id/surfaceView"
@@ -62,17 +62,40 @@
             android:textSize="15sp" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/carrierLogo"
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/view2"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.274"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.81"
-        app:srcCompat="@drawable/logo_small_dialog" />
+        card_view:cardElevation="8dp">
+
+        <ImageView
+            android:id="@+id/carrierLogo"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:elevation="12dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo_small_mobitel" />
+    </android.support.v7.widget.CardView>
+
+    <!--<ImageView-->
+    <!--android:id="@+id/carrierLogo"-->
+    <!--android:layout_width="60dp"-->
+    <!--android:layout_height="60dp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintHorizontal_bias="0.274"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:layout_constraintVertical_bias="0.81"-->
+    <!--app:srcCompat="@drawable/logo_small_dialog" />-->
 
     <ImageView
         android:id="@+id/flashIcon"
@@ -96,17 +119,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!--<Button-->
-    <!--android:id="@+id/capture_button"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="Capture"-->
-    <!--app:layout_constraintBottom_toTopOf="@+id/textureView"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/textureView"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/textureView"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/textureView"-->
-    <!--app:layout_constraintVertical_bias="0.139" />-->
 
 
 </android.support.constraint.ConstraintLayout>

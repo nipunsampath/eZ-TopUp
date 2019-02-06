@@ -29,8 +29,7 @@ import java.io.IOException;
 public class AddCarrier extends AppCompatActivity
 {
     public static final String TAG = "AddCarrier";
-    //Request Code
-    public static final int OPEN_GALLERY_CODE = 22;
+
     private ImageView carrierLogo;
 
     /**
