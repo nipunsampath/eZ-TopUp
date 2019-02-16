@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity
                                 stringBuilder.append(s);
 
 
-                                String rechargeCode = "12";
+                                String rechargeCode;
                                 String scannedString = stringBuilder.toString();
                                 if (scannedString.length() >= 12 && !dialogCalled)
                                 {
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity
             };
             wrappedDetector.setProcessor(textProcessor);
 
-            placeholder = new Carrier(0, "Placeholder", "placeholder", BitmapFactory.decodeResource(getResources(), R.drawable.no_logo));
+            placeholder = new Carrier(0, "Placeholder", "placeholder", BitmapFactory.decodeResource(getResources(), R.drawable.no_logo),12);
             flash = findViewById(R.id.flashIcon);
             assert flash != null;
             flash.setOnClickListener(new View.OnClickListener()
