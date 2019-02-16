@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class DataBaseHelper extends SQLiteOpenHelper
 {
+
     private static String DB_PATH = " ";
     private static final String DB_NAME = "ezTopUp.db";
     private static final int DB_VERSION = 1;
@@ -33,6 +34,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private String NAME = "Name";
     private String USSD = "USSD";
     private String IMAGE = "IMG_ID";
+    private String USSD_LEN = "USSD_Length" ;
 
     //Database Tables
     private String CARRIER = "Carrier";
@@ -205,8 +207,9 @@ public class DataBaseHelper extends SQLiteOpenHelper
                 String ussd = cursor.getString(cursor.getColumnIndex(USSD));
 
                 Bitmap image = DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(IMAGE)));
+                int length = cursor.getColumnIndex(USSD_LEN);
 
-                Carrier carrier = new Carrier(id, name, ussd, image);
+                Carrier carrier = new Carrier(id, name, ussd, image,length);
                 list.add(carrier);
                 cursor.moveToNext();
             }
@@ -229,8 +232,9 @@ public class DataBaseHelper extends SQLiteOpenHelper
 
             String ussd = cursor.getString(cursor.getColumnIndex(USSD));
             Bitmap image = DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(IMAGE)));
+            int length = cursor.getColumnIndex(USSD_LEN);
 
-            carrier = new Carrier(id, name, ussd, image);
+            carrier = new Carrier(id, name, ussd, image,length);
 
 
         }

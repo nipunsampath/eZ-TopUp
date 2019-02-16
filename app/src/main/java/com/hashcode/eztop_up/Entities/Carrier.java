@@ -11,13 +11,15 @@ public class Carrier implements Parcelable
     private String name;
     private String ussd;
     private Bitmap image;
+    private int ussd_length;
 
-    public Carrier(int id, String name, String ussd, Bitmap image)
+    public Carrier(int id, String name, String ussd, Bitmap image,int length)
     {
         this.id = id;
         this.name = name;
         this.ussd = ussd;
         this.image = image;
+        this.ussd_length = length;
     }
 
 
@@ -72,6 +74,15 @@ public class Carrier implements Parcelable
         return ussd;
     }
 
+    public int getUssd_length()
+    {
+        return ussd_length;
+    }
+
+    public void setUssd_length(int ussd_length)
+    {
+        this.ussd_length = ussd_length;
+    }
 
     public void setUssd(String ussd)
     {
