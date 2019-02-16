@@ -158,10 +158,10 @@ public class MainActivity extends AppCompatActivity
 
                                 String rechargeCode;
                                 String scannedString = stringBuilder.toString();
-                                if (scannedString.length() >= 12 && !dialogCalled)
+                                if (scannedString.length() >= currentCarrier.getRecharge_code_length() && !dialogCalled)
                                 {
 
-                                    rechargeCode = scannedString.substring(0, 12);
+                                    rechargeCode = scannedString.substring(0, currentCarrier.getRecharge_code_length());
                                     dialogCalled = true;
 
                                     RechargeDialog dialog = new RechargeDialog();

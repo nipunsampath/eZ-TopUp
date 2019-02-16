@@ -68,6 +68,7 @@ public class ModifyCarrier extends AppCompatActivity
         carrierLogo = findViewById(R.id.carrierLogo_edit_carrier);
         final EditText carrierName = findViewById(R.id.carrierName);
         final EditText USSD = findViewById(R.id.ussdInput);
+        final EditText codeLength = findViewById(R.id.codeLengthInput);
 
         carrierLogo.setImageBitmap(MainActivity.currentCarrier.getImage());
         carrierName.setText(MainActivity.currentCarrier.getName());
@@ -83,14 +84,7 @@ public class ModifyCarrier extends AppCompatActivity
             {
                 //opening gallery for image selection
                 Crop.pickImage(ModifyCarrier.this);
-//                Intent imagePicker = new Intent(Intent.ACTION_PICK);
-//
-//                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//                String pictureDirPath = pictureDirectory.getParent();
-//                Uri data = Uri.parse(pictureDirPath);
-//
-//                imagePicker.setDataAndType(data,"image/*");
-//                startActivityForResult(imagePicker, OPEN_GALLERY_CODE);
+
             }
         });
 
@@ -100,7 +94,7 @@ public class ModifyCarrier extends AppCompatActivity
             public void onClick(View v)
             {
 
-                Carrier modifiedCarrier = new Carrier(MainActivity.currentCarrier.getId(), carrierName.getText().toString(), USSD.getText().toString(), ((BitmapDrawable) carrierLogo.getDrawable()).getBitmap());
+                Carrier modifiedCarrier = new Carrier(MainActivity.currentCarrier.getId(), carrierName.getText().toString(), USSD.getText().toString(), ((BitmapDrawable) carrierLogo.getDrawable()).getBitmap(),Integer.parseInt(codeLength.getText().toString()));
 
                 if (!MainActivity.currentCarrier.equals(modifiedCarrier))
                 {

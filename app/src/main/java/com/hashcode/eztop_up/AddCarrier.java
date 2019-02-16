@@ -74,6 +74,7 @@ public class AddCarrier extends AppCompatActivity
         carrierLogo = findViewById(R.id.carrierLogo_edit_carrier);
         final EditText carrierName = findViewById(R.id.carrierName);
         final EditText USSD = findViewById(R.id.ussdInput);
+        final EditText codeLength = findViewById(R.id.codeLengthInput);
 
         //setting image to predefined no_logo image
         carrierLogo.setImageDrawable(getResources().getDrawable(R.drawable.no_logo));
@@ -105,6 +106,7 @@ public class AddCarrier extends AppCompatActivity
             {
                 String name = carrierName.getText().toString();
                 String ussd = USSD.getText().toString();
+                int codeLengthValue = Integer.parseInt(codeLength.getText().toString());
                 Drawable drawable = carrierLogo.getDrawable();
                 if (!name.equals("") && !ussd.equals("") && InputValidation.validateUSSD(ussd))
                 {
@@ -127,7 +129,7 @@ public class AddCarrier extends AppCompatActivity
                     }
 
 
-                    helper.insertCarrier(name, ussd, ((BitmapDrawable) drawable).getBitmap());
+                    helper.insertCarrier(name, ussd, ((BitmapDrawable) drawable).getBitmap(),codeLengthValue);
                     helper.close();
 
                     Toast.makeText(AddCarrier.this, "NetWork Career Added", Toast.LENGTH_LONG).show();

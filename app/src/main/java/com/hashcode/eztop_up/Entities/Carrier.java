@@ -11,7 +11,7 @@ public class Carrier implements Parcelable
     private String name;
     private String ussd;
     private Bitmap image;
-    private int ussd_length;
+    private int recharge_code_length;
 
     public Carrier(int id, String name, String ussd, Bitmap image,int length)
     {
@@ -19,7 +19,7 @@ public class Carrier implements Parcelable
         this.name = name;
         this.ussd = ussd;
         this.image = image;
-        this.ussd_length = length;
+        this.recharge_code_length = length;
     }
 
 
@@ -74,14 +74,14 @@ public class Carrier implements Parcelable
         return ussd;
     }
 
-    public int getUssd_length()
+    public int getRecharge_code_length()
     {
-        return ussd_length;
+        return recharge_code_length;
     }
 
-    public void setUssd_length(int ussd_length)
+    public void setRecharge_code_length(int recharge_code_length)
     {
-        this.ussd_length = ussd_length;
+        this.recharge_code_length = recharge_code_length;
     }
 
     public void setUssd(String ussd)

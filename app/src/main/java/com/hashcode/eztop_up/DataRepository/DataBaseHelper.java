@@ -34,7 +34,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
     private String NAME = "Name";
     private String USSD = "USSD";
     private String IMAGE = "IMG_ID";
-    private String USSD_LEN = "USSD_Length" ;
+    private String RECHARGE_CODE_LEN = "USSD_Length" ;
 
     //Database Tables
     private String CARRIER = "Carrier";
@@ -171,7 +171,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
      *
      *****/
 
-    public void insertCarrier(String name, String ussd, Bitmap image)
+    public void insertCarrier(String name, String ussd, Bitmap image, int length)
     {
         try{
             ContentValues values = new ContentValues();
@@ -179,6 +179,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
             values.put(NAME, name);
             values.put(USSD, ussd);
             values.put(IMAGE, DbBitmapUtility.getBytes(image));
+            values.put(RECHARGE_CODE_LEN,length);
 
             db.insert(CARRIER, null, values);
         }
@@ -207,7 +208,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
                 String ussd = cursor.getString(cursor.getColumnIndex(USSD));
 
                 Bitmap image = DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(IMAGE)));
-                int length = cursor.getColumnIndex(USSD_LEN);
+                int length = cursor.getColumnIndex(RECHARGE_CODE_LEN);
 
                 Carrier carrier = new Carrier(id, name, ussd, image,length);
                 list.add(carrier);
@@ -232,7 +233,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
 
             String ussd = cursor.getString(cursor.getColumnIndex(USSD));
             Bitmap image = DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(IMAGE)));
-            int length = cursor.getColumnIndex(USSD_LEN);
+            int length = cursor.getColumnIndex(RECHARGE_CODE_LEN);
 
             carrier = new Carrier(id, name, ussd, image,length);
 
@@ -253,6 +254,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
             values.put(NAME, carrier.getName());
             values.put(USSD, carrier.getUssd());
             values.put(IMAGE, DbBitmapUtility.getBytes(carrier.getImage()));
+            values.put(RECHARGE_CODE_LEN,carrier.getRecharge_code_length());
 
 
         }
