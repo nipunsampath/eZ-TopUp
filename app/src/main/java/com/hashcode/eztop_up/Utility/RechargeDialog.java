@@ -1,5 +1,6 @@
 package com.hashcode.eztop_up.Utility;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -7,7 +8,9 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -63,6 +66,14 @@ public class RechargeDialog
             @Override
             public void onClick(View v)
             {
+                if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+                {
+
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            MainActivity.REQUEST_CALL_PERMISSION);
+
+                }
                 String ussdCode = Uri.encode(MainActivity.currentCarrier.getUssd()+ rechargeCode + "#");
                 activity.startActivity(new Intent("android.intent.action.CALL", Uri.parse("tel:" + ussdCode)));
             }
