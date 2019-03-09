@@ -26,7 +26,6 @@ public class ModifyCarrier extends AppCompatActivity
 
     public static final String TAG = "Modify Carrier";
 
-    public static final int OPEN_GALLERY_CODE = 22;
     private ImageView carrierLogo;
 
     @Override
@@ -73,6 +72,7 @@ public class ModifyCarrier extends AppCompatActivity
         carrierLogo.setImageBitmap(MainActivity.currentCarrier.getImage());
         carrierName.setText(MainActivity.currentCarrier.getName());
         USSD.setText(MainActivity.currentCarrier.getUssd());
+        codeLength.setText(Integer.toString(MainActivity.currentCarrier.getRecharge_code_length()));
 
         Button save = findViewById(R.id.save_button);
 
@@ -94,7 +94,7 @@ public class ModifyCarrier extends AppCompatActivity
             public void onClick(View v)
             {
 
-                Carrier modifiedCarrier = new Carrier(MainActivity.currentCarrier.getId(), carrierName.getText().toString(), USSD.getText().toString(), ((BitmapDrawable) carrierLogo.getDrawable()).getBitmap(),Integer.parseInt(codeLength.getText().toString()));
+                Carrier modifiedCarrier = new Carrier(MainActivity.currentCarrier.getId(), carrierName.getText().toString(), USSD.getText().toString(), ((BitmapDrawable) carrierLogo.getDrawable()).getBitmap(), Integer.parseInt(codeLength.getText().toString()));
 
                 if (!MainActivity.currentCarrier.equals(modifiedCarrier))
                 {
@@ -102,7 +102,6 @@ public class ModifyCarrier extends AppCompatActivity
 
                     try
                     {
-
                         helper.createDataBase();
                         helper.openDataBase();
 
@@ -115,12 +114,19 @@ public class ModifyCarrier extends AppCompatActivity
                     {
                         throw new Error("Unable to create database");
                     }
-                    helper.updateCarrier(modifiedCarrier);
+                    if(helper.updateCarrier(modifiedCarrier) != 0)
+                    {
+                        Toast.makeText(ModifyCarrier.this, "Network Career Modified", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(ModifyCarrier.this, "Error in Saving Carrier", Toast.LENGTH_LONG).show();
+                    }
                     MainActivity.currentCarrier = modifiedCarrier;
                     helper.close();
                 }
 
-                Toast.makeText(ModifyCarrier.this, "NetWork Career Modified", Toast.LENGTH_LONG).show();
+
                 Intent intent = new Intent(ModifyCarrier.this, EditCarriers.class);
                 startActivity(intent);
             }

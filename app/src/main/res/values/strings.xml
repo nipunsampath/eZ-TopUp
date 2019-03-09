@@ -5,6 +5,7 @@
     <string name="scaning">Scaning....</string>
     <string name="add">Add Carrier</string>
     <string name="edit">Edit Carrier</string>
+    <string name="modify">Modify Carrier</string>
     <string name="delete">Delete Carrier</string>
     <string name="title_activity_edit_carrier">Edit Carrier</string>
     <string name="save">Save</string>

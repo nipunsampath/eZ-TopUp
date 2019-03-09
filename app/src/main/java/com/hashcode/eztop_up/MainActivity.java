@@ -36,7 +36,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
 {
     private static final String TAG = "AndroidCameraApi";
-    private static final int REQUEST_CAMERA_PERMISSION = 200;
+    public static final int REQUEST_CAMERA_PERMISSION = 200;
+    public static final int REQUEST_CALL_PERMISSION = 250;
 
 
     public static Carrier placeholder;
@@ -45,8 +46,6 @@ public class MainActivity extends AppCompatActivity
     private SurfaceView cameraView;
     private ImageView flash;
 
-
-    private boolean mFlashSupported;
 
     private boolean isFlasherOn;
 
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         float logicalDensity = metrics.density;
 
-        //wrap text detector to recognize text in the middle
+        //wrap text detector to recognize text in the middle of the screen
         wrappedDetector = new BoxDetector(textRecognizer, (int) Math.ceil(400 * logicalDensity), (int) Math.ceil(100 * logicalDensity));
 
         if (!textRecognizer.isOperational())
@@ -178,7 +177,7 @@ public class MainActivity extends AppCompatActivity
             };
             wrappedDetector.setProcessor(textProcessor);
 
-            placeholder = new Carrier(0, "Placeholder", "placeholder", BitmapFactory.decodeResource(getResources(), R.drawable.no_logo),12);
+            placeholder = new Carrier(0, "Placeholder", "placeholder", BitmapFactory.decodeResource(getResources(), R.drawable.no_logo), 12);
             flash = findViewById(R.id.flashIcon);
             assert flash != null;
             flash.setOnClickListener(new View.OnClickListener()

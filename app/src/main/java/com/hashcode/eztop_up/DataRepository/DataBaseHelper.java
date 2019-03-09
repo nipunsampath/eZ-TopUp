@@ -208,7 +208,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
                 String ussd = cursor.getString(cursor.getColumnIndex(USSD));
 
                 Bitmap image = DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(IMAGE)));
-                int length = cursor.getColumnIndex(RECHARGE_CODE_LEN);
+                int length = cursor.getInt(cursor.getColumnIndex(RECHARGE_CODE_LEN));
 
                 Carrier carrier = new Carrier(id, name, ussd, image,length);
                 list.add(carrier);
@@ -230,7 +230,6 @@ public class DataBaseHelper extends SQLiteOpenHelper
         {
 
             String name = cursor.getString(cursor.getColumnIndex(NAME));
-
             String ussd = cursor.getString(cursor.getColumnIndex(USSD));
             Bitmap image = DbBitmapUtility.getImage(cursor.getBlob(cursor.getColumnIndex(IMAGE)));
             int length = cursor.getColumnIndex(RECHARGE_CODE_LEN);
@@ -255,7 +254,6 @@ public class DataBaseHelper extends SQLiteOpenHelper
             values.put(USSD, carrier.getUssd());
             values.put(IMAGE, DbBitmapUtility.getBytes(carrier.getImage()));
             values.put(RECHARGE_CODE_LEN,carrier.getRecharge_code_length());
-
 
         }
         catch (IOException e)
