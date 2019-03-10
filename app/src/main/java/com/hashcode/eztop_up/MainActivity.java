@@ -1,6 +1,7 @@
 package com.hashcode.eztop_up;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.SQLException;
 import android.graphics.BitmapFactory;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     public static ArrayList<Carrier> carrierList;
     private SurfaceView cameraView;
     private ImageView flash;
+    private ImageView menu;
 
 
     private boolean isFlasherOn;
@@ -64,13 +66,17 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         cameraView = findViewById(R.id.surfaceView);
         cameraView.setZOrderOnTop(false);
         assert cameraView != null;
         scanningText = findViewById(R.id.scanningText);
+
         carrierList = getAllCarriers();
 
         dialogCalled = false;
+
+        //setting up the surface view for text recognition
         TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -177,7 +183,11 @@ public class MainActivity extends AppCompatActivity
             };
             wrappedDetector.setProcessor(textProcessor);
 
+
+            //placeholder carrier
             placeholder = new Carrier(0, "Placeholder", "placeholder", BitmapFactory.decodeResource(getResources(), R.drawable.no_logo), 12);
+
+            // setting up the flasher
             flash = findViewById(R.id.flashIcon);
             assert flash != null;
             flash.setOnClickListener(new View.OnClickListener()
@@ -225,6 +235,16 @@ public class MainActivity extends AppCompatActivity
             scanningIcon = findViewById(R.id.scaningIcon);
             scanningIcon.setVisibility(View.INVISIBLE);
 
+            menu = findViewById(R.id.menuIcon);
+            menu.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Intent intent = new Intent(MainActivity.this,EditCarriers.class);
+                    startActivity(intent);
+                }
+            });
         }
     }
 
