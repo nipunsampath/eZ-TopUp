@@ -56,7 +56,7 @@ public class CarrierDialog
         if (mode == CARRIER_SELECTION)
         {
             mView = activity.getLayoutInflater().inflate(R.layout.carrier_dialog, null);
-            FloatingActionButton editButton = mView.findViewById(R.id.editFlotingActionButton);
+
 
             mBuilder.setOnCancelListener(new DialogInterface.OnCancelListener()
             {
@@ -84,16 +84,7 @@ public class CarrierDialog
                 }
             });
 
-            editButton.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    Intent intent = new Intent(activity.getApplicationContext(), EditCarriers.class);
 
-                    activity.startActivity(intent);
-                }
-            });
 
         } else
         {
