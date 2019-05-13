@@ -4,7 +4,7 @@ ez-TopUp is an open source android application that simplify the process of topp
 
 ### Demo
 
-![Scan Image](https://github.com/nipunsampath/eZ-TopUp/tree/master/demo/scan.gif)
+![](https://media.giphy.com/media/fTzWkvDeMUApTVC3Y9/giphy.gif )
 
 ### Technology Stack
 
