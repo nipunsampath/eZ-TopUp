@@ -134,7 +134,7 @@ public class AddCarrier extends AppCompatActivity
 
                     Toast.makeText(AddCarrier.this, "NetWork Career Added", Toast.LENGTH_LONG).show();
 
-                    Intent intent = new Intent(AddCarrier.this, EditCarriers.class);
+                    Intent intent = new Intent(AddCarrier.this, SettingsActivity.class);
                     startActivity(intent);
                 } else
                 {
