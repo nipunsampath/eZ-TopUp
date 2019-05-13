@@ -1,5 +1,6 @@
 package com.hashcode.eztop_up;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.drawable.BitmapDrawable;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -127,12 +130,41 @@ public class ModifyCarrier extends AppCompatActivity
                 }
 
 
-                Intent intent = new Intent(ModifyCarrier.this, EditCarriers.class);
+                Intent intent = new Intent(ModifyCarrier.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
 
 
+    }
+
+    //displaying the help icon on the toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menu_toolbar,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        AlertDialog.Builder mBuilder;
+        View mView;
+        AlertDialog dialog;
+        switch (item.getItemId())
+        {
+            case R.id.mihelp:
+                mBuilder = new AlertDialog.Builder(this);
+                mView = getLayoutInflater().inflate(R.layout.carrier_dialog, null);
+                mBuilder.setView(mView);
+                dialog = mBuilder.create();
+                dialog.show();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void beginCrop(Uri source)
