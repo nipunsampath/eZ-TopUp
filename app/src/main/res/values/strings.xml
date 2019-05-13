@@ -4,7 +4,7 @@
     <string name="image_of_the_carrier">image of the carrier</string>
     <string name="scaning">Scaning....</string>
     <string name="add">Add Carrier</string>
-    <string name="edit">Edit Carrier</string>
+    <string name="edit">Settings</string>
     <string name="modify">Modify Carrier</string>
     <string name="delete">Delete Carrier</string>
     <string name="title_activity_edit_carrier">Edit Carrier</string>
@@ -20,4 +20,6 @@
     <string name="recharge">Recharge</string>
     <string name="cancel">Cancel</string>
     <string name="number_of_digits_in_the_recharge_code">Recharge Card Length</string>
+    <string name="help">Help</string>
+    <string name="modify_carrier_guide">Modify Carrier Guide</string>
 </resources>

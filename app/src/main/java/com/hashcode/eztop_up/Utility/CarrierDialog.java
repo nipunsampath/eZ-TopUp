@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.SQLException;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import com.hashcode.eztop_up.AddCarrier;
 import com.hashcode.eztop_up.DataRepository.DataBaseHelper;
-import com.hashcode.eztop_up.EditCarriers;
 import com.hashcode.eztop_up.Entities.Carrier;
 import com.hashcode.eztop_up.MainActivity;
 import com.hashcode.eztop_up.ModifyCarrier;
